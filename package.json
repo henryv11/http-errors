@@ -5,8 +5,7 @@
   "main": "dist",
   "scripts": {
     "test": "jest",
-    "build": "tsc && cp ./package.json ./dist",
-    "publish": "npm publish ./dist"
+    "build": "tsc && cp ./package.json ./dist"
   },
   "repository": "github:henryv11/http-errors",
   "homepage": "https://github.com/henryv11/http-errors",
