@@ -49,12 +49,7 @@ const errorMap = {
 };
 
 export abstract class HttpError extends Error {
-  constructor(
-    public code: number,
-    message: string,
-    public type: keyof typeof errorMap,
-    public data?: Record<string | number | symbol, unknown>,
-  ) {
+  constructor(public code: number, message: string, public type: keyof typeof errorMap, public data?: unknown) {
     super(message);
     Error.captureStackTrace(this);
   }
@@ -63,9 +58,9 @@ export abstract class HttpError extends Error {
 export default Object.entries(errorMap).reduce((errors, [key, code]) => {
   const message = key.replace(/([A-Z](?=[a-z]+)|[A-Z]+(?![a-z]))/g, ' $1').trim();
   errors[<keyof typeof errorMap>key] = class extends HttpError {
-    constructor(public data?: Record<string | number | symbol, unknown>) {
+    constructor(public data?: unknown) {
       super(code, message, <keyof typeof errorMap>key, data);
     }
   };
   return errors;
-}, <Record<keyof typeof errorMap, { new (data?: Record<string | number | symbol, unknown>): HttpError }>>{});
+}, <Record<keyof typeof errorMap, { new (data?: unknown): HttpError }>>{});
